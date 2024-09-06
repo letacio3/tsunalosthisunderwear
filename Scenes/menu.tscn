@@ -1,0 +1,237 @@
+[gd_scene load_steps=22 format=3 uid="uid://bsax5d787dqie"]
+
+[ext_resource type="Shader" path="res://Shaders/bg.gdshader" id="2_rkwrh"]
+[ext_resource type="Texture2D" uid="uid://yalxcrl46pg2" path="res://Img/Background.webp" id="3_hghuj"]
+[ext_resource type="PackedScene" uid="uid://bbwjdxjlkgjaf" path="res://Scenes/main_menu.tscn" id="4_llaug"]
+[ext_resource type="Script" path="res://Scripts/background.gd" id="4_uxow6"]
+[ext_resource type="PackedScene" uid="uid://bxpcmqltsqqta" path="res://lobby/lobby.tscn" id="5_cub1i"]
+[ext_resource type="PackedScene" uid="uid://dxklhhidvcnmi" path="res://Scenes/game.tscn" id="6_hfnxo"]
+[ext_resource type="PackedScene" uid="uid://c0640gl7h7ifi" path="res://Scenes/leaderboards.tscn" id="7_ca0w7"]
+[ext_resource type="FontFile" uid="uid://mfaa1m2dt3n8" path="res://Fonts/univers-57-condensed-oblique_eL0BS/Univers 57 Condensed Oblique/Univers 57 Condensed Oblique.otf" id="7_lgk7y"]
+[ext_resource type="Texture2D" uid="uid://d2rp7jnmnndbi" path="res://Img/lambo2.png" id="8_c3nj2"]
+[ext_resource type="PackedScene" uid="uid://dvmdtagl15g0h" path="res://Scenes/about.tscn" id="8_gatjp"]
+[ext_resource type="AudioStream" uid="uid://bkj1qoo0vgdar" path="res://Audio/Katekyo Hitman Reborn All Openings Full.mp3" id="11_hfql3"]
+[ext_resource type="Texture2D" uid="uid://3mkkxrettjvj" path="res://Img/audio.svg" id="12_tgfps"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_afpjh"]
+shader = ExtResource("2_rkwrh")
+shader_parameter/speed = 0.03
+shader_parameter/t = null
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yv1h3"]
+bg_color = Color(0.19, 0.19, 0.19, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqkly"]
+atlas = ExtResource("8_c3nj2")
+region = Rect2(0, 0, 220, 165)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dpy0n"]
+atlas = ExtResource("8_c3nj2")
+region = Rect2(220, 0, 220, 165)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsfvv"]
+atlas = ExtResource("8_c3nj2")
+region = Rect2(440, 0, 220, 165)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e8wck"]
+atlas = ExtResource("8_c3nj2")
+region = Rect2(660, 0, 220, 165)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ro38l"]
+atlas = ExtResource("8_c3nj2")
+region = Rect2(880, 0, 220, 165)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vd70x"]
+atlas = ExtResource("8_c3nj2")
+region = Rect2(1100, 0, 220, 165)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3cfqw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bqkly")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dpy0n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lsfvv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e8wck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ro38l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vd70x")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="Sprite2D" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_afpjh")
+position = Vector2(205, 369)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("3_hghuj")
+script = ExtResource("4_uxow6")
+
+[node name="Main Menu" parent="." node_paths=PackedStringArray("leaderboards", "game", "lobby", "about") instance=ExtResource("4_llaug")]
+leaderboards = NodePath("../Leaderboards")
+game = NodePath("../Game")
+lobby = NodePath("../Lobby")
+about = NodePath("../About")
+
+[node name="Game" parent="." node_paths=PackedStringArray("lobby") instance=ExtResource("6_hfnxo")]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 10.05
+anchor_bottom = 19.925
+offset_bottom = 0.999939
+lobby = NodePath("../Lobby")
+
+[node name="Lobby" parent="." node_paths=PackedStringArray("main_menu") instance=ExtResource("5_cub1i")]
+visible = false
+main_menu = NodePath("../Main Menu")
+
+[node name="AskName" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 9.964
+anchor_bottom = 20.125
+offset_left = 21.0
+offset_top = 37.0
+offset_right = -23.56
+offset_bottom = -33.0001
+theme_override_styles/panel = SubResource("StyleBoxFlat_yv1h3")
+
+[node name="Panel" type="Panel" parent="AskName"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 260.0
+offset_right = 330.0
+offset_bottom = 521.0
+
+[node name="Label" type="Label" parent="AskName/Panel"]
+layout_mode = 0
+offset_right = 304.0
+offset_bottom = 71.0
+theme_override_fonts/font = ExtResource("7_lgk7y")
+theme_override_font_sizes/font_size = 22
+text = "Welcome! Kimi wa dare da?!
+How do you want to be called?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="error" type="Label" parent="AskName/Panel"]
+layout_mode = 0
+offset_top = 271.0
+offset_right = 304.0
+offset_bottom = 326.0
+theme_override_colors/font_color = Color(0.877346, 3.87453e-06, 1.2514e-06, 1)
+theme_override_fonts/font = ExtResource("7_lgk7y")
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="AskName/Panel"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 101.0
+offset_right = 293.0
+offset_bottom = 157.0
+theme_override_fonts/font = ExtResource("7_lgk7y")
+placeholder_text = "Enter your mafia name..."
+
+[node name="Button" type="Button" parent="AskName/Panel"]
+layout_mode = 0
+offset_left = 81.0
+offset_top = 193.0
+offset_right = 225.0
+offset_bottom = 248.0
+theme_override_fonts/font = ExtResource("7_lgk7y")
+text = "Confirm"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="AskName"]
+position = Vector2(176, 166)
+sprite_frames = SubResource("SpriteFrames_3cfqw")
+autoplay = "default"
+frame_progress = 0.286962
+
+[node name="Leaderboards" parent="." instance=ExtResource("7_ca0w7")]
+visible = false
+layout_mode = 1
+offset_bottom = 12.0
+
+[node name="About" parent="." instance=ExtResource("8_gatjp")]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 10.0
+anchor_bottom = 20.05
+offset_bottom = -6.10352e-05
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_hfql3")
+volume_db = -35.0
+autoplay = true
+
+[node name="Audio" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 350.0
+offset_top = 32.0
+offset_right = 385.0
+offset_bottom = 69.0
+toggle_mode = true
+texture_normal = ExtResource("12_tgfps")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Line2D" type="Line2D" parent="Audio"]
+visible = false
+position = Vector2(0, 0.0857143)
+scale = Vector2(1, 1.08571)
+points = PackedVector2Array(1, 1, 28, 32)
+width = 2.0
+default_color = Color(1, 0, 0, 1)
+
+[node name="plus" type="Button" parent="."]
+layout_mode = 0
+offset_left = 367.0
+offset_top = 5.0
+offset_right = 394.0
+offset_bottom = 36.0
+text = "+"
+
+[node name="minus" type="Button" parent="."]
+layout_mode = 0
+offset_left = 367.0
+offset_top = 66.0
+offset_right = 394.0
+offset_bottom = 97.0
+text = "-"
+
+[connection signal="back" from="Game" to="Main Menu" method="_on_game_back"]
+[connection signal="back" from="Lobby" to="Main Menu" method="_on_lobby_back"]
+[connection signal="cards_received" from="Lobby" to="Game" method="rpc_cards_received"]
+[connection signal="match_ready" from="Lobby" to="Main Menu" method="_on_lobby_match_ready"]
+[connection signal="op_data_received" from="Lobby" to="Game" method="_on_lobby_op_data_received"]
+[connection signal="pressed" from="AskName/Panel/Button" to="Main Menu" method="_on_name_pressed"]
+[connection signal="back" from="Leaderboards" to="Main Menu" method="_on_leaderboards_back"]
+[connection signal="back" from="About" to="Main Menu" method="_on_about_back"]
+[connection signal="pressed" from="Audio" to="Main Menu" method="_on_audio_pressed"]
+[connection signal="pressed" from="plus" to="Main Menu" method="_on_plus_pressed"]
+[connection signal="pressed" from="minus" to="Main Menu" method="_on_minus_pressed"]
+
+[editable path="Main Menu"]

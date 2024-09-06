@@ -1,0 +1,188 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxpcmqltsqqta"]
+
+[ext_resource type="Script" path="res://lobby/lobby.gd" id="1_r6808"]
+[ext_resource type="FontFile" uid="uid://mfaa1m2dt3n8" path="res://Fonts/univers-57-condensed-oblique_eL0BS/Univers 57 Condensed Oblique/Univers 57 Condensed Oblique.otf" id="2_jvwgy"]
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_r6808")
+
+[node name="Panel2" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_left = -2.0
+offset_right = 404.0
+offset_bottom = 800.0
+mouse_filter = 2
+
+[node name="Panel3" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_left = -4.0
+offset_right = 404.0
+offset_bottom = 800.0
+mouse_filter = 2
+
+[node name="Rooms" type="Control" parent="."]
+anchors_preset = 0
+offset_left = -468.0
+offset_top = 72.0
+offset_right = -428.0
+offset_bottom = 112.0
+scale = Vector2(0.7, 0.7)
+
+[node name="room_label" type="Label" parent="Rooms"]
+layout_mode = 0
+offset_left = 921.0
+offset_top = 112.0
+offset_right = 994.0
+offset_bottom = 135.0
+theme_override_fonts/font = ExtResource("2_jvwgy")
+theme_override_font_sizes/font_size = 22
+text = "Room list"
+
+[node name="room_list" type="ItemList" parent="Rooms"]
+layout_mode = 0
+offset_left = 718.0
+offset_top = 147.0
+offset_right = 1196.0
+offset_bottom = 755.0
+theme_override_fonts/font = ExtResource("2_jvwgy")
+theme_override_font_sizes/font_size = 22
+
+[node name="room_name_edit" type="TextEdit" parent="Rooms"]
+layout_mode = 0
+offset_left = 719.0
+offset_top = 771.0
+offset_right = 1117.0
+offset_bottom = 803.0
+theme_override_fonts/font = ExtResource("2_jvwgy")
+theme_override_font_sizes/font_size = 20
+placeholder_text = "Room name"
+
+[node name="room_create_btn" type="Button" parent="Rooms"]
+layout_mode = 0
+offset_left = 1123.0
+offset_top = 772.0
+offset_right = 1194.0
+offset_bottom = 803.0
+theme_override_fonts/font = ExtResource("2_jvwgy")
+theme_override_font_sizes/font_size = 22
+text = "Create"
+
+[node name="room_join_btn" type="Button" parent="Rooms"]
+layout_mode = 0
+offset_left = 719.0
+offset_top = 813.0
+offset_right = 871.0
+offset_bottom = 844.0
+theme_override_fonts/font = ExtResource("2_jvwgy")
+theme_override_font_sizes/font_size = 22
+disabled = true
+text = "Join selected room"
+
+[node name="current_room" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 555.0
+offset_top = 469.0
+offset_right = 1141.0
+offset_bottom = 683.0
+
+[node name="room_label" type="Label" parent="current_room"]
+visible = false
+layout_mode = 2
+offset_left = 250.0
+offset_top = 23.0
+offset_right = 356.0
+offset_bottom = 46.0
+text = "Current room"
+
+[node name="room_log" type="RichTextLabel" parent="current_room"]
+visible = false
+layout_mode = 0
+offset_left = 54.0
+offset_top = 62.0
+offset_right = 439.0
+offset_bottom = 158.0
+scroll_following = true
+
+[node name="room_leave_btn" type="Button" parent="current_room"]
+layout_mode = 0
+offset_left = -237.0
+offset_top = 177.0
+offset_right = -184.0
+offset_bottom = 208.0
+disabled = true
+text = "Leave"
+
+[node name="UI" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 125.0
+offset_top = 615.0
+offset_right = 366.0
+offset_bottom = 739.0
+
+[node name="chat_history" type="RichTextLabel" parent="UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.929
+offset_left = 12.0
+offset_top = 6.0
+offset_right = -9.0
+offset_bottom = -0.195999
+text = "
+"
+scroll_following = true
+
+[node name="chat_input" type="LineEdit" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 131.0
+offset_right = -59.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_jvwgy")
+theme_override_font_sizes/font_size = 22
+placeholder_text = "Type a chat message..."
+
+[node name="chat_send" type="Button" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 193.0
+offset_top = 131.5
+offset_right = -1.0
+offset_bottom = 38.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_jvwgy")
+theme_override_font_sizes/font_size = 22
+text = "Send"
+
+[node name="Back" type="Button" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 9.0
+offset_right = 156.0
+offset_bottom = 57.0
+theme_override_fonts/font = ExtResource("2_jvwgy")
+theme_override_font_sizes/font_size = 22
+text = "Back"
+
+[connection signal="empty_clicked" from="Rooms/room_list" to="." method="_on_room_list_empty_clicked"]
+[connection signal="item_selected" from="Rooms/room_list" to="." method="_on_room_list_item_selected"]
+[connection signal="pressed" from="Rooms/room_create_btn" to="." method="_on_room_create_btn_pressed"]
+[connection signal="pressed" from="Rooms/room_join_btn" to="." method="_on_room_join_btn_pressed"]
+[connection signal="pressed" from="current_room/room_leave_btn" to="." method="_on_room_leave_btn_pressed"]
+[connection signal="text_submitted" from="UI/chat_input" to="." method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="UI/chat_send" to="." method="_on_chat_send_pressed"]
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]

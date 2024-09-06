@@ -1,0 +1,248 @@
+[gd_scene load_steps=9 format=3 uid="uid://dxklhhidvcnmi"]
+
+[ext_resource type="Script" path="res://Scripts/game.gd" id="1_3i55c"]
+[ext_resource type="FontFile" uid="uid://mfaa1m2dt3n8" path="res://Fonts/univers-57-condensed-oblique_eL0BS/Univers 57 Condensed Oblique/Univers 57 Condensed Oblique.otf" id="2_frgnc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_371k5"]
+bg_color = Color(0.29448, 0.376846, 0.967587, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mvmcr"]
+bg_color = Color(0.357515, 0.0920332, 0.185228, 1)
+
+[sub_resource type="Animation" id="Animation_piene"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HBoxContainer/Points1:theme_override_styles/normal:bg_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.29448, 0.376846, 0.967587, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HBoxContainer/Points2:theme_override_styles/normal:bg_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.357515, 0.0920332, 0.185228, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_wo33b"]
+resource_name = "my_turn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HBoxContainer/Points1:theme_override_styles/normal:bg_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.29448, 0.376846, 0.967587, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HBoxContainer/Points2:theme_override_styles/normal:bg_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.44, 0.44, 0.44, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_e4ov3"]
+resource_name = "op_turn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HBoxContainer/Points1:theme_override_styles/normal:bg_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.29448, 0.376846, 0.967587, 1), Color(0.44, 0.44, 0.44, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HBoxContainer/Points2:theme_override_styles/normal:bg_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.44, 0.44, 0.44, 1), Color(0.29448, 0.376846, 0.967587, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s3hwr"]
+_data = {
+"RESET": SubResource("Animation_piene"),
+"my_turn": SubResource("Animation_wo33b"),
+"op_turn": SubResource("Animation_e4ov3")
+}
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_3i55c")
+
+[node name="Panel2" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.01
+anchor_bottom = 0.999
+offset_bottom = 4.79993
+mouse_filter = 2
+
+[node name="Panel3" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.01
+anchor_bottom = 0.999
+offset_bottom = 5.79993
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.997
+anchor_bottom = 1.0
+offset_right = 0.200012
+offset_bottom = 3.0
+mouse_filter = 2
+
+[node name="Button" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 740.0
+offset_right = 115.0
+offset_bottom = 785.0
+theme_override_fonts/font = ExtResource("2_frgnc")
+theme_override_font_sizes/font_size = 20
+text = "Back"
+
+[node name="board" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 102.0
+offset_right = 391.0
+offset_bottom = 613.0
+
+[node name="GridContainer" type="GridContainer" parent="board"]
+layout_mode = 0
+offset_left = 26.0
+offset_right = 348.0
+offset_bottom = 642.0
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 5
+columns = 3
+
+[node name="Player1" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 11.0
+offset_right = 140.0
+offset_bottom = 86.0
+
+[node name="Player1" type="Label" parent="Player1"]
+layout_mode = 2
+size_flags_vertical = 7
+theme_override_fonts/font = ExtResource("2_frgnc")
+theme_override_font_sizes/font_size = 20
+text = "Player1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Rank1" type="Label" parent="Player1"]
+layout_mode = 2
+size_flags_vertical = 7
+theme_override_fonts/font = ExtResource("2_frgnc")
+theme_override_font_sizes/font_size = 20
+text = "Ranking
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Player2" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 239.0
+offset_top = 11.0
+offset_right = 365.0
+offset_bottom = 86.0
+
+[node name="Player2" type="Label" parent="Player2"]
+layout_mode = 2
+size_flags_vertical = 7
+theme_override_fonts/font = ExtResource("2_frgnc")
+theme_override_font_sizes/font_size = 20
+text = "Player2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Rank2" type="Label" parent="Player2"]
+layout_mode = 2
+size_flags_vertical = 7
+theme_override_fonts/font = ExtResource("2_frgnc")
+theme_override_font_sizes/font_size = 20
+text = "Ranking
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 119.0
+offset_top = 5.0
+offset_right = 262.0
+offset_bottom = 99.0
+
+[node name="Points1" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 7
+theme_override_fonts/font = ExtResource("2_frgnc")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_371k5")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Points2" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 7
+theme_override_fonts/font = ExtResource("2_frgnc")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_mvmcr")
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_s3hwr")
+}
+
+[connection signal="pressed" from="Panel/Button" to="." method="_on_button_pressed"]

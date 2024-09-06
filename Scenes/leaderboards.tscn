@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=3 uid="uid://c0640gl7h7ifi"]
+
+[ext_resource type="Script" path="res://Scripts/leaderboards.gd" id="1_qolvy"]
+[ext_resource type="FontFile" uid="uid://b5qhefohe76xh" path="res://Fonts/condition/Condition3DFilled-Italic.ttf" id="2_v2v87"]
+[ext_resource type="FontFile" uid="uid://mfaa1m2dt3n8" path="res://Fonts/univers-57-condensed-oblique_eL0BS/Univers 57 Condensed Oblique/Univers 57 Condensed Oblique.otf" id="3_uxhxt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lrpeo"]
+bg_color = Color(0.25, 0.25, 0.25, 1)
+
+[node name="Leaderboards" type="Control"]
+layout_mode = 3
+anchor_right = 10.0
+anchor_bottom = 19.925
+offset_bottom = -6.10352e-05
+script = ExtResource("1_qolvy")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lrpeo")
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 70.0
+offset_right = 396.0
+offset_bottom = 137.0
+theme_override_fonts/font = ExtResource("2_v2v87")
+theme_override_font_sizes/font_size = 42
+text = "Leaderboards"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TabBar" type="TabBar" parent="Panel"]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 154.0
+offset_right = 402.0
+offset_bottom = 225.0
+theme_override_fonts/font = ExtResource("3_uxhxt")
+theme_override_font_sizes/font_size = 25
+current_tab = 0
+tab_count = 2
+tab_0/title = "  Singleplayer  "
+tab_1/title = "  Multiplayer  "
+
+[node name="ItemList" type="ItemList" parent="Panel"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 227.0
+offset_right = 373.0
+offset_bottom = 760.0
+theme_override_fonts/font = ExtResource("3_uxhxt")
+theme_override_font_sizes/font_size = 20
+
+[node name="Back" type="Button" parent="."]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 12.0
+offset_right = 153.0
+offset_bottom = 60.0
+theme_override_fonts/font = ExtResource("3_uxhxt")
+theme_override_font_sizes/font_size = 20
+text = "Back"
+
+[connection signal="tab_changed" from="Panel/TabBar" to="." method="_on_tab_bar_tab_changed"]
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]

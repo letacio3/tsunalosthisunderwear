@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bkj1qoo0vgdar"
+path="res://.godot/imported/Katekyo Hitman Reborn All Openings Full.mp3-b3f8416781b99996ef0bba42dad5239e.mp3str"
+
+[deps]
+
+source_file="res://Audio/Katekyo Hitman Reborn All Openings Full.mp3"
+dest_files=["res://.godot/imported/Katekyo Hitman Reborn All Openings Full.mp3-b3f8416781b99996ef0bba42dad5239e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

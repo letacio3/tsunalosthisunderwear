@@ -1,0 +1,111 @@
+[gd_scene load_steps=7 format=3 uid="uid://2hkxv4jmbgnm"]
+
+[ext_resource type="Script" path="res://Scripts/card.gd" id="2_wi1f0"]
+[ext_resource type="Texture2D" uid="uid://cr1clcmgij06u" path="res://Img/frame.png" id="3_qs26m"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ont1c"]
+load_path = "res://.godot/imported/back.png-56209384345e9ea7e9a09ba34340250e.ctex"
+
+[sub_resource type="Animation" id="Animation_we50k"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Card:custom_minimum_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(100, 75)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Border:custom_minimum_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(100, 75)]
+}
+
+[sub_resource type="Animation" id="Animation_0y30v"]
+resource_name = "flip"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Card:custom_minimum_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4995, 0.999),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(100, 75), Vector2(0, 75), Vector2(100, 75)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Border:custom_minimum_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4995, 0.999),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(100, 75), Vector2(0, 75), Vector2(100, 75)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4662),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"switch_side"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j1fkh"]
+_data = {
+"RESET": SubResource("Animation_we50k"),
+"flip": SubResource("Animation_0y30v")
+}
+
+[node name="CardScene" type="CenterContainer"]
+offset_right = 100.0
+offset_bottom = 75.0
+mouse_filter = 2
+script = ExtResource("2_wi1f0")
+
+[node name="Card" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(100, 75)
+layout_mode = 2
+mouse_filter = 0
+texture = SubResource("CompressedTexture2D_ont1c")
+expand_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Card"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_j1fkh")
+}
+
+[node name="Border" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(100, 75)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_qs26m")
+expand_mode = 1
+
+[connection signal="gui_input" from="Card" to="." method="_on_card_gui_input"]
+[connection signal="mouse_entered" from="Card" to="." method="_on_card_mouse_entered"]
+[connection signal="mouse_exited" from="Card" to="." method="_on_card_mouse_exited"]
