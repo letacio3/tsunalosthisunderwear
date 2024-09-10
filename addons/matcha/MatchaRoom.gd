@@ -11,9 +11,9 @@ enum State { NEW, STARTED }
 # Signals
 signal peer_joined(rpc_id: int, peer: MatchaPeer) # Emitted when a peer joined the room
 signal peer_left(rpc_id: int, peer: MatchaPeer) # Emitted when a peer left the room
+
 signal connection_estabilished()
 signal disconnected
-
 # Members
 var _state := State.NEW # Internal state
 var _tracker_urls := [] # A list of tracker urls
@@ -21,10 +21,10 @@ var _tracker_clients: Array[TrackerClient] = [] # A list of tracker clients we u
 var _id: String # An unique id for this room
 var _peer_id := Utils.gen_id()
 var _type: String
-var _offer_timeout := 3
+var _offer_timeout := 120
 var _pool_size := 40
 var _connected_peers = {}
-
+var _connection_emited
 # Getters
 var rpc_id:
 	get: return get_unique_id()
@@ -73,13 +73,6 @@ func _init(options:={}):
 
 	if options.autostart:
 		start.call()
-	
-	#var webrtc_multiplayer := MultiplayerAPI.new()
-	#webrtc_multiplayer.initialize()
-
-	# Add the WebRTCMultiplayer to the multiplayer system.
-	#get_tree().set_multiplayer(webrtc_multiplayer)
-	#multiplayer.multiplayer_peer = rtc_peer
 
 # Public methods
 func start() -> Error:
@@ -140,7 +133,7 @@ func find_peer(filter:={}, allow_multiple_results:=false) -> MatchaPeer:
 
 # Broadcast an event to everybody in this room or just specific peers. (List of peer_id)
 func send_event(event_name: String, event_args:=[], target_peer_ids:=[]):
-	for peer: MatchaPeer in peers:
+	for peer in peers:
 		if not peer.is_connected: continue
 		if target_peer_ids.size() > 0 and not target_peer_ids.has(peer.id): continue
 		peer.send_event(event_name, event_args)
@@ -151,9 +144,13 @@ func __poll():
 	_create_offers()
 	_handle_offers_announcment()
 	var con_status: MultiplayerPeer.ConnectionStatus = get_connection_status()
-	if  con_status == MultiplayerPeer.ConnectionStatus.CONNECTION_DISCONNECTED:
+	if con_status == MultiplayerPeer.ConnectionStatus.CONNECTION_CONNECTED and !_connection_emited:
+		_connection_emited = true
+		connection_estabilished.emit()
+	if con_status != MultiplayerPeer.ConnectionStatus.CONNECTION_CONNECTED and _connection_emited:
+		_connection_emited = false
 		disconnected.emit()
-
+		
 func _remove_unanswered_offer(offer_id: String) -> void:
 	var offer := find_peer({ "answered": false, "offer_id": offer_id })
 	if offer != null:
@@ -186,7 +183,7 @@ func _handle_offers_announcment():
 	if unannounced_offers.size() == 0: return # There are no offers to announce
 
 	var announce_offers: Array = [] # The array we need for the tracker offer announcements
-	for offer_peer: MatchaPeer in unannounced_offers:
+	for offer_peer in unannounced_offers:
 		if not offer_peer.gathered: return # If we have ungathered offers we are not ready yet to announce.
 
 		if _type == "client":
@@ -199,7 +196,7 @@ func _handle_offers_announcment():
 		else:
 			announce_offers.append({ "offer_id": offer_peer.offer_id, "offer": { "type": "offer", "sdp": offer_peer.local_sdp } })
 
-	for offer_peer: MatchaPeer in unannounced_offers:
+	for offer_peer in unannounced_offers:
 		offer_peer.mark_as_announced()
 
 	for tracker_client in _tracker_clients: # Announce the offers via every tracker
@@ -249,7 +246,5 @@ func _on_peer_connected(rpc_id: int):
 
 func _on_peer_disconnected(rpc_id: int):
 	var peer: MatchaPeer = _connected_peers[rpc_id]
-	if peer:
-		peer.close() 
 	_connected_peers.erase(rpc_id)
 	peer_left.emit(rpc_id, peer)

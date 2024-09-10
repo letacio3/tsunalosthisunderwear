@@ -18,6 +18,7 @@ var op_data = {
 	"Data": {}
 }
 var ask_name: bool
+var menu_scene = load("res://Scenes/menu.tscn")
 @onready var ask_name_node: Panel = $"../AskName"
 var logged: bool = false
 @onready var input_name: TextEdit = $"../AskName/Panel/TextEdit"
@@ -65,30 +66,25 @@ func _on_leaderboards_back() -> void:
 	show()
 
 func _on_game_back() -> void:
+	#OS.create_instance([])
+	#get_tree().quit()
+	#get_parent().queue_free()
+	#return
+	lobby.match_confirmed = false
 	game.hide()
-	lobby._on_room_leave_btn_pressed()
-	#lobby.queue_free()
-	#var new_lobby = lobby_scene.instantiate()
-	#get_parent().add_child(new_lobby)
-	#lobby = new_lobby
-	#lobby.main_menu = self
-	#game.lobby = lobby
-	#lobby.back.connect(_on_lobby_back)
-	#lobby.match_ready.connect(_on_lobby_match_ready)
-	#lobby.visible = false
 	show()
+	rpc_disconnected_from_lobby.rpc_id(game.op_id)
 	
-func _on_lobby_match_ready(multiplayer_peer) -> void:
+func _on_lobby_match_ready() -> void:
 	game.show()
-	game.config_multiplayer(multiplayer_peer)
 	game.reset_game()
-	game.start_multi(user_data.Name, user_data.Score_multi,\
-					op_data.Name, op_data.Score_multi, await lobby.is_room_leader())
-	lobby.hide()
+	game.start_multi(user_data.Name, user_data.Score_multi, lobby.op_id,\
+					lobby.op_data.Name, lobby.op_data.Score_multi, lobby.room_leader)
+	#lobby.hide()
 	
 func _on_lobby_back() -> void:
 	#lobby.show_lobby()
-	lobby.hide()
+	#lobby.hide()
 	show()
 
 func _on_about_pressed() -> void:
@@ -97,7 +93,8 @@ func _on_about_pressed() -> void:
 	pass # Replace with function body.
 
 func _on_multi_pressed() -> void:	
-	lobby.show_lobby()
+	#lobby.show_lobby()
+	lobby.looking_for_match = true
 	hide()
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
@@ -129,7 +126,7 @@ func _on_login_complete(sw_result: Dictionary) -> void:
 		user_data.Data = SilentWolf.Players.player_data
 		var score = await SilentWolf.Scores.get_scores_by_player(user_data.Name, 10, "main")
 		Global.save_dict_to_json(user_data, user_path)
-		lobby.set_room_name(user_data.Name)
+		#lobby.set_room_name(user_data.Name)
 	else:
 		error.text = sw_result.error
 		SilentWolf.Auth.register_player(user_data.Name, "nomail@dadada.com", "nopassSSss1", "nopassSSss1")
@@ -185,3 +182,8 @@ func _on_get_multi_scores(sw_result):
 		SilentWolf.Scores.sw_get_player_scores_complete.disconnect(_on_get_multi_scores)
 		SilentWolf.Scores.sw_get_player_scores_complete.connect(_on_get_solo_scores)
 		#SilentWolf.Scores.sw_get_player_scores_complete.connect(_on_get_solo_scores)
+
+@rpc("any_peer","call_remote","reliable")
+func rpc_disconnected_from_lobby():
+	if game.visible:
+		_on_game_back()

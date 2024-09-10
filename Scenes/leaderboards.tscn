@@ -43,7 +43,6 @@ offset_right = 402.0
 offset_bottom = 225.0
 theme_override_fonts/font = ExtResource("3_uxhxt")
 theme_override_font_sizes/font_size = 25
-current_tab = 0
 tab_count = 2
 tab_0/title = "  Singleplayer  "
 tab_1/title = "  Multiplayer  "

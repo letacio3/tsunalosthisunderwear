@@ -12,8 +12,10 @@ config_version=5
 
 config/name="TsunaLostHisUnderwear"
 run/main_scene="res://Scenes/menu.tscn"
-config/features=PackedStringArray("4.3", "Mobile")
-config/icon="res://icon.svg"
+config/features=PackedStringArray("4.1", "Mobile")
+config/icon="res://Img/back.png"
+config/macos_native_icon="res://Img/back.png"
+config/windows_native_icon="res://Img/icon.ico"
 
 [autoload]
 

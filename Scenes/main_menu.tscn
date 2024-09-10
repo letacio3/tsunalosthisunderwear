@@ -208,7 +208,8 @@ offset_bottom = 721.0
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.982343, 0.982342, 0.982342, 1)
-theme_override_constants/outline_size = 10
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
 theme_override_fonts/font = ExtResource("2_76s0o")
 theme_override_font_sizes/font_size = 36
 text = "Singleplayer"
@@ -217,7 +218,8 @@ text = "Singleplayer"
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 10
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
 theme_override_fonts/font = ExtResource("2_76s0o")
 theme_override_font_sizes/font_size = 36
 text = "Multiplayer"
@@ -226,7 +228,8 @@ text = "Multiplayer"
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 10
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
 theme_override_fonts/font = ExtResource("2_76s0o")
 theme_override_font_sizes/font_size = 36
 text = "Leaderboards"
@@ -235,16 +238,17 @@ text = "Leaderboards"
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 10
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
 theme_override_fonts/font = ExtResource("2_76s0o")
 theme_override_font_sizes/font_size = 36
 text = "About"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Intro"
 libraries = {
 "": SubResource("AnimationLibrary_0asl0")
 }
-autoplay = "Intro"
 
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Multi" to="." method="_on_multi_pressed"]

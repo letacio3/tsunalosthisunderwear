@@ -46,9 +46,6 @@ func _process(delta: float) -> void:
 		else:
 			timer = 0
 			my_request = multiplayer.get_unique_id()
-			if my_request != 1:
-				op_id = 1
-				rpc_broadcast.rpc_id(1, my_request)
 
 
 func _on_button_pressed() -> void:
@@ -69,26 +66,22 @@ func start_solo(_player_name, score):
 	generate_board()
 	
 	
-func start_multi(_player_name, score, op_name, op_score, leader):
-	if not connection_checked:
-		await get_tree().create_timer(0.1).timeout
-		if not connection_checked:
-			start_multi(_player_name, score, op_name, op_score, leader)
-			return
-		else:
-			player_2.visible = true
-			points_2.visible = true
-			solo = false
-			player_name = _player_name
-			player_1_name.text = _player_name.split("#")[0]
-			rank_1.text = str(score)
-			player_2_name.text = str(op_name.split("#")[0])
-			rank_2.text = str(op_score)
-			if leader:
-				var rand = randi_range(0, 1)
-				if rand:
-					my_turn = true
-				generate_board()
+func start_multi(_player_name, score, _op_id, op_name, op_score, leader):
+	reset_game()
+	op_id = _op_id
+	player_2.visible = true
+	points_2.visible = true
+	solo = false
+	player_name = _player_name
+	player_1_name.text = _player_name.split("#")[0]
+	rank_1.text = str(score)
+	player_2_name.text = str(op_name.split("#")[0])
+	rank_2.text = str(op_score)
+	if leader:
+		var rand = randi_range(0, 1)
+		if rand:
+			my_turn = true
+		generate_board()
 
 func generate_board():
 	var array = []
@@ -190,7 +183,7 @@ func reset_game():
 	await get_tree().create_timer(2).timeout
 	if score.player_scores.size() > 0:
 		rank_1.text = str(score.player_scores[0].score)
-	rpc_send_data.rpc_id(op_id, player_1_name.text, rank_1.text)
+	#rpc_send_data.rpc_id(op_id, player_1_name.text, rank_1.text)
 
 func rpc_cards_received(array, turn):
 	my_turn = turn
@@ -206,28 +199,11 @@ func config_multiplayer(multiplayer_peer):
 	op_id = 1
 	
 @rpc("any_peer", "call_local", "reliable")
-func rpc_send_data(op_name: String, op_rank: String):
-	player_2_name.text = op_name
-	rank_2.text = op_rank
-	
-@rpc("any_peer", "call_local", "reliable")
 func rpc_send_board(_board: Array, _my_turn: bool):
 	cards = _board
 	my_turn = _my_turn
 	await get_tree().create_timer(1).timeout
 	create_cards(cards)
-	
-@rpc("any_peer", "call_local", "reliable")
-func rpc_broadcast(_op_id):
-	if _op_id != my_request:
-		op_id = multiplayer.get_remote_sender_id()
-		rpc_broadcast_received.rpc_id(op_id)
-		if my_request == 1:
-			connection_checked = true
-		
-@rpc("any_peer", "call_local", "reliable")
-func rpc_broadcast_received():
-	connection_checked = true
 	
 @rpc("any_peer", "call_local", "reliable")
 func rpc_turn_ended():

@@ -226,7 +226,6 @@ text = "-"
 [connection signal="back" from="Lobby" to="Main Menu" method="_on_lobby_back"]
 [connection signal="cards_received" from="Lobby" to="Game" method="rpc_cards_received"]
 [connection signal="match_ready" from="Lobby" to="Main Menu" method="_on_lobby_match_ready"]
-[connection signal="op_data_received" from="Lobby" to="Game" method="_on_lobby_op_data_received"]
 [connection signal="pressed" from="AskName/Panel/Button" to="Main Menu" method="_on_name_pressed"]
 [connection signal="back" from="Leaderboards" to="Main Menu" method="_on_leaderboards_back"]
 [connection signal="back" from="About" to="Main Menu" method="_on_about_back"]

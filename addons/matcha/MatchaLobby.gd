@@ -96,7 +96,7 @@ func leave_room() -> Error:
 
 # Private methods
 func _find_room_by_id(room_id: String):
-	for room: Dictionary in _rooms.values():
+	for room in _rooms.values():
 		if room.id == room_id: return room
 	return null
 
@@ -110,7 +110,7 @@ func _verify_room_meta(room_meta: Dictionary) -> bool:
 	return typeof(room_meta) == TYPE_DICTIONARY
 
 func _remove_room(room_id: String) -> bool:
-	for peer_id: String in _rooms.keys():
+	for peer_id in _rooms.keys():
 		var room: Dictionary = _rooms[peer_id]
 		if room.id != room_id: continue
 
